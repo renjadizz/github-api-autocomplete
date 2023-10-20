@@ -1,0 +1,49 @@
+/* VARIABLES */
+
+:root {
+    /* COLORS */
+
+    --BGCOLOR: #EFF6FF;
+    --MAINTEXT: #2A4A5C;
+    --FBBUTTON: #255A9B;
+    --INBUTTON: #0076B6;
+    --SBMTBUTTON: #3698FB;
+    --SECONDARYTEXT: #7B8A92;
+}
+
+/* GENERAL STYLES */
+
+body {
+    background-color: var(--SECONDARYTEXT);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Barlow', sans-serif;
+}
+
+/* BLOCKS */
+.main {
+    margin: 0 auto;
+    padding: 0;
+    display: grid;
+    flex-wrap: wrap;
+}
+
+.sides {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+
+/* ELEMENTS */
+
+
+/* MODIFIERS */
+
