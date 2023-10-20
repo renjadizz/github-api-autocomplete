@@ -23,6 +23,7 @@ window.onload = (event) => {
             liNode.setAttribute("name", item.name);
             liNode.setAttribute("owner", item.owner.login);
             liNode.setAttribute("stars", item.stargazers_count);
+            liNode.addEventListener("click", addToList, true);
             let aNode = document.createElement("a");
             aNode.setAttribute("class", "search__list__ul__li__a");
             aNode.setAttribute("href", "#");
@@ -37,6 +38,33 @@ window.onload = (event) => {
         while (searchList.firstChild) {
             searchList.removeChild(searchList.firstChild);
         }
+    }
+
+    function addToList(e) {
+        let tableDivNode = document.getElementsByClassName("repos")[0];
+        let tableNode = document.getElementsByClassName("repos__table")[0];
+        if (tableNode === undefined) {
+            tableNode = document.createElement("table");
+            tableNode.setAttribute("class", "repos__table");
+            let tableHeaders = ["Name", "Owner", "Stars", " "];
+            populateTable(tableNode, tableHeaders, "th");
+        }
+        let liName = e.currentTarget.getAttribute("name");
+        let liOwner = e.currentTarget.getAttribute("owner");
+        let liStars = e.currentTarget.getAttribute("stars");
+        let tableRowValues = [liName, liOwner, liStars, "X"];
+        populateTable(tableNode, tableRowValues, "td");
+        tableDivNode.appendChild(tableNode);
+    }
+
+    function populateTable(tableNode, values, attr) {
+        let trNode = document.createElement("tr");
+        for (let value of values) {
+            let thNode = document.createElement(attr);
+            thNode.textContent = value;
+            trNode.appendChild(thNode);
+        }
+        tableNode.appendChild(trNode);
     }
 
     function debounce(fn, timeout = 1000) {
