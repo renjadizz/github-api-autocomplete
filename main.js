@@ -30,12 +30,15 @@ window.onload = (event) => {
             let tableHeaders = ["Name", "Owner", "Stars", " "];
             populateTable(tableNode, tableHeaders, "th");
         }
-        let liName = e.currentTarget.getAttribute("name");
-        let liOwner = e.currentTarget.getAttribute("owner");
-        let liStars = e.currentTarget.getAttribute("stars");
-        let tableRowValues = [liName, liOwner, liStars, "X"];
-        populateTable(tableNode, tableRowValues, "td");
-        tableDivNode.appendChild(tableNode);
+        if (document.getElementById(e.currentTarget.getAttribute("idForTable")) === null) {
+            let liName = e.currentTarget.getAttribute("name");
+            let liOwner = e.currentTarget.getAttribute("owner");
+            let liStars = e.currentTarget.getAttribute("stars");
+            let liId = e.currentTarget.getAttribute("idForTable");
+            let tableRowValues = [liName, liOwner, liStars, "X"];
+            populateTable(tableNode, tableRowValues, "td", liId);
+            tableDivNode.appendChild(tableNode);
+        }
         clearSearchList(e.currentTarget.parentNode);
         clearSearchInput(input);
     }
@@ -56,7 +59,7 @@ window.onload = (event) => {
         for (let item of data) {
             let liNode = document.createElement("li");
             liNode.setAttribute("class", "search__list__ul__li");
-            liNode.setAttribute("id", item.id);
+            liNode.setAttribute("idForTable", item.id);
             liNode.setAttribute("name", item.name);
             liNode.setAttribute("owner", item.owner.login);
             liNode.setAttribute("stars", item.stargazers_count);
@@ -81,10 +84,13 @@ window.onload = (event) => {
         input.value = "";
     }
 
-    function populateTable(tableNode, values, attr) {
+    function populateTable(tableNode, values, attr, id) {
         let trNode = document.createElement("tr");
         for (let value of values) {
             let thNode = document.createElement(attr);
+            if (attr === "td" && id) {
+                thNode.setAttribute("id", id);
+            }
             thNode.textContent = value;
             if (value === "X") {
                 thNode.setAttribute("class", "repos__table__tr-delete");
