@@ -142,8 +142,14 @@ body {
     background-color: #eee;
 }
 
-.repos__table__tr-delete{
-    color:red;
+.repos__table__tr-delete {
+    color: red;
+}
+
+.search__list__p-error {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 

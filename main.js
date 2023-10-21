@@ -7,10 +7,17 @@ window.onload = (event) => {
     async function updateValue(e) {
         clearSearchList(searchList);
         if (e.target.value.trim().length) {
-            const searchedValue = e.target.value;
-            const githubResult = await fetch(`https://api.github.com/search/repositories?q=${searchedValue}&per_page=5`);
-            const jsonData = await githubResult.json();
-            populateSearchList(jsonData.items, searchList);
+            try {
+                const searchedValue = e.target.value;
+                const githubResult = await fetch(`https://api.github.com/search/repositories?q=${searchedValue}&per_page=5`);
+                const jsonData = await githubResult.json();
+                populateSearchList(jsonData.items, searchList);
+            } catch (error) {
+                let pNode = document.createElement("p");
+                pNode.setAttribute("class", "search__list__p-error");
+                pNode.textContent = "Something went wrong. Please try again later";
+                searchList.append(pNode);
+            }
         }
     }
 
