@@ -3,6 +3,7 @@ window.onload = (event) => {
     const input = document.getElementsByClassName("search__input")[0];
     const searchList = document.getElementsByClassName("search__list")[0];
 
+    // eventHandlers
     async function updateValue(e) {
         clearSearchList(searchList);
         if (e.target.value.trim().length) {
@@ -13,6 +14,35 @@ window.onload = (event) => {
         }
     }
 
+    function addToList(e) {
+        let tableDivNode = document.getElementsByClassName("repos")[0];
+        let tableNode = document.getElementsByClassName("repos__table")[0];
+        if (tableNode === undefined) {
+            tableNode = document.createElement("table");
+            tableNode.setAttribute("class", "repos__table");
+            let tableHeaders = ["Name", "Owner", "Stars", " "];
+            populateTable(tableNode, tableHeaders, "th");
+        }
+        let liName = e.currentTarget.getAttribute("name");
+        let liOwner = e.currentTarget.getAttribute("owner");
+        let liStars = e.currentTarget.getAttribute("stars");
+        let tableRowValues = [liName, liOwner, liStars, "X"];
+        populateTable(tableNode, tableRowValues, "td");
+        tableDivNode.appendChild(tableNode);
+        clearSearchList(e.currentTarget.parentNode);
+        clearSearchInput(input);
+    }
+
+    function deleteFromTable(e) {
+        let tableNode = e.target.parentNode.parentNode;
+        let trNode = e.target.parentNode;
+        trNode.remove();
+        if (tableNode.rows.length === 1) {
+            tableNode.remove();
+        }
+    }
+
+    //Helpers
     function populateSearchList(data, searchList) {
         let ulNode = document.createElement("ul");
         ulNode.setAttribute("class", "search__list__ul");
@@ -40,28 +70,9 @@ window.onload = (event) => {
         }
     }
 
-    function addToList(e) {
-        let tableDivNode = document.getElementsByClassName("repos")[0];
-        let tableNode = document.getElementsByClassName("repos__table")[0];
-        if (tableNode === undefined) {
-            tableNode = document.createElement("table");
-            tableNode.setAttribute("class", "repos__table");
-            let tableHeaders = ["Name", "Owner", "Stars", " "];
-            populateTable(tableNode, tableHeaders, "th");
-        }
-        let liName = e.currentTarget.getAttribute("name");
-        let liOwner = e.currentTarget.getAttribute("owner");
-        let liStars = e.currentTarget.getAttribute("stars");
-        let tableRowValues = [liName, liOwner, liStars, "X"];
-        populateTable(tableNode, tableRowValues, "td");
-        tableDivNode.appendChild(tableNode);
+    function clearSearchInput(input) {
+        input.value = "";
     }
-
-    /*let tableDivNode = document.getElementsByClassName("repos")[0];
-    let tableNode = document.createElement("table");
-    let tableRowValues = ["Murat", "Murat", 1, "X"];
-    populateTable(tableNode, tableRowValues, "td");
-    tableDivNode.appendChild(tableNode);*/
 
     function populateTable(tableNode, values, attr) {
         let trNode = document.createElement("tr");
@@ -70,15 +81,11 @@ window.onload = (event) => {
             thNode.textContent = value;
             if (value === "X") {
                 thNode.setAttribute("class", "repos__table__tr-delete");
-                thNode.addEventListener("click", deleteFromList, true);
+                thNode.addEventListener("click", deleteFromTable, true);
             }
             trNode.appendChild(thNode);
         }
         tableNode.appendChild(trNode);
-    }
-
-    function deleteFromList(e) {
-        e.target.parentNode.remove();
     }
 
     function debounce(fn, timeout = 1000) {
