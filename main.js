@@ -57,14 +57,28 @@ window.onload = (event) => {
         tableDivNode.appendChild(tableNode);
     }
 
+    /*let tableDivNode = document.getElementsByClassName("repos")[0];
+    let tableNode = document.createElement("table");
+    let tableRowValues = ["Murat", "Murat", 1, "X"];
+    populateTable(tableNode, tableRowValues, "td");
+    tableDivNode.appendChild(tableNode);*/
+
     function populateTable(tableNode, values, attr) {
         let trNode = document.createElement("tr");
         for (let value of values) {
             let thNode = document.createElement(attr);
             thNode.textContent = value;
+            if (value === "X") {
+                thNode.setAttribute("class", "repos__table__tr-delete");
+                thNode.addEventListener("click", deleteFromList, true);
+            }
             trNode.appendChild(thNode);
         }
         tableNode.appendChild(trNode);
+    }
+
+    function deleteFromList(e) {
+        e.target.parentNode.remove();
     }
 
     function debounce(fn, timeout = 1000) {
